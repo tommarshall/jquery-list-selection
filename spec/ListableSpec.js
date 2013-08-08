@@ -1,32 +1,49 @@
 describe("Listable jQuery Plugin: ", function () {
-  var $list, $listItems, $targetItem;
+  var $list, $listItems, $targetItem, $testOutput, testOptions;
+
+  testOptions = {
+    submitCallback: function (uids) {
+      $('#test-output').data('submitCallback', true);
+      $('#test-output').data('uids', uids);
+    },
+    deleteCallback: function (uids) {
+      $('#test-output').data('deleteCallback', true);
+      $('#test-output').data('uids', uids);
+    }
+  };
 
   beforeEach(function () {
     jasmine.getFixtures().set('<ul data-listable="true">'+
-                                '<li>Item 1</li>'+
-                                '<li>Item 2</li>'+
-                                '<li>Item 3</li>'+
-                                '<li>Item 4</li>'+
-                                '<li>Item 5</li>'+
-                                '<li>Item 6</li>'+
-                                '<li>Item 7</li>'+
-                                '<li>Item 8</li>'+
-                                '<li>Item 9</li>'+
-                                '<li>Item 10</li>'+
-                              '</ul>');
+                                '<li data-uid="1">Item 1</li>'+
+                                '<li data-uid="2">Item 2</li>'+
+                                '<li data-uid="3">Item 3</li>'+
+                                '<li data-uid="4">Item 4</li>'+
+                                '<li data-uid="5">Item 5</li>'+
+                                '<li data-uid="6">Item 6</li>'+
+                                '<li data-uid="7">Item 7</li>'+
+                                '<li data-uid="8">Item 8</li>'+
+                                '<li data-uid="9">Item 9</li>'+
+                                '<li data-uid="10">Item 10</li>'+
+                              '</ul>'+
+                              '<div id="test-output"></div>"');
 
-    $list = $('ul[data-listable="true"]').listable();
+    $testOutput = $('#test-output');
+    
+    $list = $('ul[data-listable="true"]').listable(testOptions);
+
     $listItems = $list.find('li');
     $targetItem = $listItems.eq(6);
+  });
 
-    this.addMatchers({
-      toBeSelected: function() {
-        return $(this.actual).hasClass('selected');
-      },
-      toNotBeSelected: function() {
-        return ! $(this.actual).hasClass('selected');
-      }
-    });
+  it("should be chainable", function() {
+    $list.addClass('example');
+    expect($list.hasClass('example')).toBeTruthy();
+  });
+
+  it("should disable selection when shift key held", function () {
+    pressKey(keyMap.shift);
+    expect($list).toHaveSelectionDisabled();
+    releaseKey(keyMap.shift);
   });
 
   describe("when no items selected", function () {
@@ -55,7 +72,7 @@ describe("Listable jQuery Plugin: ", function () {
         beforeEach(function () {
           // trigger ctrl press event
           ctrlPress = $.Event('keydown');
-          ctrlPress.which = 91;
+          ctrlPress.which = keyMap.cmd;
           $(document).trigger(ctrlPress);
 
           // trigger the click
@@ -65,10 +82,10 @@ describe("Listable jQuery Plugin: ", function () {
         afterEach(function () {
           // trigger ctrl release event
           ctrlRelease = $.Event('keyup');
-          ctrlPress.which = 91;
+          ctrlPress.which = keyMap.cmd;
           $(document).trigger(ctrlRelease);
         });
-                
+
         it("should select that list item", function () {
           expect($targetItem).toBeSelected();
         });
@@ -84,7 +101,7 @@ describe("Listable jQuery Plugin: ", function () {
         beforeEach(function () {
           // trigger shift press event
           shiftPress = $.Event('keydown');
-          shiftPress.which = 16;
+          shiftPress.which = keyMap.shift;
           $(document).trigger(shiftPress);
 
           // trigger the click
@@ -94,7 +111,7 @@ describe("Listable jQuery Plugin: ", function () {
         afterEach(function () {
           // trigger shift release event
           shiftRelease = $.Event('keyup');
-          shiftRelease.which = 16;
+          shiftRelease.which = keyMap.shift;
           $(document).trigger(shiftRelease);
         });
 
@@ -108,37 +125,70 @@ describe("Listable jQuery Plugin: ", function () {
       });
     });
 
-    describe("pressing the escape button", function () {
+    describe("pressing the escape key", function () {
       
       it("should not select any list items", function () {
-            // trigger esc press event
-        var escPress = $.Event('keydown');
-        escPress.which = 27;
-        $(document).trigger(escPress);
-
-        // expect no selections
+        pressKey(keyMap.esc);
         expect($list.find('.selected').size()).toEqual(0);
       });
     });
 
-    describe("pressing the enter button", function () {
+    describe("pressing the enter key", function () {
       
-      it("should not trigger the callback", function () {
-        // TODO
+      beforeEach(function () {
+        pressKey(keyMap.enter);
+      });
+
+      it("should trigger the callback", function () {
+        expect($testOutput.data('submitCallback')).toBeTruthy();
+      });
+
+      it("should pass an empty array to the callback", function () {
+        expect($testOutput.data('uids')).toEqual([]);
       });
     });
 
-    describe("pressing the up button", function () {
+    describe("pressing the delete key", function () {
       
-      it("should select the last item", function () {
-        // TODO
+      beforeEach(function () {
+        pressKey(keyMap.delete);
+      });
+
+      it("should trigger the callback", function () {
+        expect($testOutput.data('deleteCallback')).toBeTruthy();
+      });
+
+      it("should pass an empty array to the callback", function () {
+        expect($testOutput.data('uids')).toEqual([]);
       });
     });
 
-    describe("pressing the down button", function () {
+    describe("pressing the backspace key", function () {
       
-      it("should select the first item", function () {
-        // TODO
+      beforeEach(function () {
+        pressKey(keyMap.backspace);
+      });
+
+      it("should trigger the callback", function () {
+        expect($testOutput.data('deleteCallback')).toBeTruthy();
+      });
+
+      it("should pass an empty array to the callback", function () {
+        expect($testOutput.data('uids')).toEqual([]);
+      });
+    });
+
+    describe("pressing the up key", function () {
+      it("should not select any item", function () {
+        pressKey(keyMap.up);
+        expect($list.find('.selected').size()).toEqual(0);
+      });
+    });
+
+    describe("pressing the down key", function () {
+      it("should not select any item", function () {
+        pressKey(keyMap.down);
+        expect($list.find('.selected').size()).toEqual(0);
       });
     });
   }); // when no items selected
@@ -147,8 +197,9 @@ describe("Listable jQuery Plugin: ", function () {
     var $selectedItem;
 
     beforeEach(function () {
-      // select another list item
-      $selectedItem = $listItems.eq(3).addClass('selected');
+      // select another list item (Item 4)
+      $selectedItem = $listItems.eq(3);
+      $selectedItem.trigger($.Event('click'));
     });
 
     describe("clicking on an unselected list item", function () {
@@ -170,23 +221,13 @@ describe("Listable jQuery Plugin: ", function () {
       });
 
       describe("when control/command key held", function () {
-        var ctrlPress, ctrlRelease;
-
         beforeEach(function () {
-          // trigger ctrl press event
-          ctrlPress = $.Event('keydown');
-          ctrlPress.which = 91;
-          $(document).trigger(ctrlPress);
-
-          // trigger the click
+          pressKey(keyMap.cmd);
           $targetItem.trigger($.Event('click'));
         });
         
         afterEach(function () {
-          // trigger ctrl release event
-          ctrlRelease = $.Event('keyup');
-          ctrlPress.which = 91;
-          $(document).trigger(ctrlRelease);
+          releaseKey(keyMap.cmd);
         });
                 
         it("should select that list item", function () {
@@ -203,26 +244,18 @@ describe("Listable jQuery Plugin: ", function () {
       });
 
       describe("when shift key held", function () {
-        var shiftPress, shiftRelease, $range;
+        var $range;
 
         beforeEach(function () {
-          // trigger shift press event
-          shiftPress = $.Event('keydown');
-          shiftPress.which = 16;
-          $(document).trigger(shiftPress);
-
           // fetch the range
-          $range = $list.find('li').slice($selectedItem.index(), $targetItem.index());
+          $range = $list.find('li').slice($selectedItem.index(), $targetItem.index() + 1);
 
-          // trigger the click
+          pressKey(keyMap.shift);
           $targetItem.trigger($.Event('click'));
         });
 
         afterEach(function () {
-          // trigger shift release event
-          shiftRelease = $.Event('keyup');
-          shiftRelease.which = 16;
-          $(document).trigger(shiftRelease);
+          releaseKey(keyMap.shift);
         });
 
         it("should create a range of selected list items", function () {
@@ -257,20 +290,12 @@ describe("Listable jQuery Plugin: ", function () {
         var ctrlPress, ctrlRelease;
 
         beforeEach(function () {
-          // trigger ctrl press event
-          ctrlPress = $.Event('keydown');
-          ctrlPress.which = 91;
-          $(document).trigger(ctrlPress);
-
-          // trigger the click
+          pressKey(keyMap.cmd);
           $selectedItem.trigger($.Event('click'));
         });
         
         afterEach(function () {
-          // trigger ctrl release event
-          ctrlRelease = $.Event('keyup');
-          ctrlPress.which = 91;
-          $(document).trigger(ctrlRelease);
+          releaseKey(keyMap.cmd);
         });
 
         it("should deselect that list item", function () {
@@ -286,20 +311,12 @@ describe("Listable jQuery Plugin: ", function () {
         var shiftPress, shiftRelease;
 
         beforeEach(function () {
-          // trigger shift press event
-          shiftPress = $.Event('keydown');
-          shiftPress.which = 16;
-          $(document).trigger(shiftPress);
-
-          // trigger the click
+          pressKey(keyMap.shift);
           $selectedItem.trigger($.Event('click'));
         });
 
         afterEach(function () {
-          // trigger shift release event
-          shiftRelease = $.Event('keyup');
-          shiftRelease.which = 16;
-          $(document).trigger(shiftRelease);
+          releaseKey(keyMap.shift);
         });
 
         it("should deselect that list item", function () {
@@ -312,57 +329,209 @@ describe("Listable jQuery Plugin: ", function () {
       });
     });
 
-    describe("pressing the escape button", function () {
+    describe("pressing the escape key", function () {
       
       it("should deselect all list items", function () {
-        // trigger esc press event
-        var escPress = $.Event('keydown');
-        escPress.which = 27;
-        $(document).trigger(escPress);
-
+        pressKey(keyMap.esc);
         expect($list.find('.selected').size()).toEqual(0);
       });
     });
 
-    describe("pressing the enter button", function () {
+    describe("pressing the enter key", function () {
+
+      beforeEach(function () {
+        pressKey(keyMap.enter);
+      });
       
-      it("should trigger the enter button callback", function () {
-        // TODO
+      it("should trigger the submit callback", function () {
+        expect($testOutput.data('submitCallback')).toBeTruthy();
       });
       
       it("should pass the correct id to the callback", function () {
-        // TODO
+        expect($testOutput.data('uids')).toEqual([$selectedItem.data('uid')]);
       });
     });
 
-    describe("pressing the up button", function () {
+    describe("pressing the delete key", function () {
+      
+      beforeEach(function () {
+        pressKey(keyMap.delete);
+      });
+
+      it("should trigger the delete callback", function () {
+        expect($testOutput.data('deleteCallback')).toBeTruthy();
+      });
+      
+      it("should pass the correct id to the callback", function () {
+        expect($testOutput.data('uids')).toEqual([$selectedItem.data('uid')]);
+      });
+    });
+
+    describe("pressing the backspace key", function () {
+      
+      beforeEach(function () {
+        pressKey(keyMap.backspace);
+      });
+
+      it("should trigger the delete callback", function () {
+        expect($testOutput.data('deleteCallback')).toBeTruthy();
+      });
+      
+      it("should pass the correct id to the callback", function () {
+        expect($testOutput.data('uids')).toEqual([$selectedItem.data('uid')]);
+      });
+    });
+
+    describe("pressing the up key", function () {
+
+      beforeEach(function () {
+        pressKey(keyMap.up);
+      });
       
       it("should deselect the current item", function () {
-        // TODO
+        expect($selectedItem).toNotBeSelected();
       });
       
       it("should select the previous item", function () {
-        // TODO
+        var $previousItem = $listItems.eq($selectedItem.index() - 1);
+        expect($previousItem).toBeSelected();
       });
-      
-      it("should leave the first item selected when at the top", function () {
-        // TODO
+
+      it("should not select any other list items", function () {
+        expect($list.find('.selected').size()).toEqual(1);
       });
     });
 
-    describe("pressing the down button", function () {
+    describe("pressing the down key", function () {
       
+      beforeEach(function () {
+        pressKey(keyMap.down);
+      });
+
       it("should deselect the current item", function () {
-        // TODO
+        expect($selectedItem).toNotBeSelected();
       });
       
       it("should select the next item", function () {
-        // TODO
+        var $nextItem = $listItems.eq($selectedItem.index() + 1);
+        expect($nextItem).toBeSelected();
       });
-      
-      it("should leave the last item selected when at the bottom", function () {
-        // TODO
+
+      it("should not select any other list items", function () {
+        expect($list.find('.selected').size()).toEqual(1);
       });
     });
   }); // when one item selected
+
+  describe("when the top item is selected pressing the up key", function () {
+    var $firstItem;
+    
+    beforeEach(function () {
+      $firstItem = $listItems.first();
+      $firstItem.trigger($.Event('click'));
+
+      pressKey(keyMap.up);
+    });
+
+    it("should leave the first item selected", function () {
+      expect($firstItem).toBeSelected();
+    });
+
+    it("should not select any other list items", function () {
+      expect($list.find('.selected').size()).toEqual(1);
+    });
+  });
+
+  describe("when the bottom item is selected pressing the down key", function () {
+    var $lastItem;
+
+    beforeEach(function () {
+      $lastItem = $listItems.last();
+      $lastItem.trigger($.Event('click'));
+
+      pressKey(keyMap.down);
+    });
+
+    it("should leave the last item selected", function () {
+      expect($lastItem).toBeSelected();
+    });
+
+    it("should not select any other list items", function () {
+      expect($list.find('.selected').size()).toEqual(1);
+    });
+  });
+
+  describe("when multiple items are selected", function () {
+    var $multiSelectedItems;
+    var targetIndices = [2, 4, 8];
+
+    beforeEach(function () {
+      // filter out the different items
+      $multiSelectedItems = $listItems.filter(function (index) {
+        return targetIndices.indexOf(index + 1) > -1;
+      });
+
+      pressKey(keyMap.cmd);
+
+      // click each of the target items 
+      $multiSelectedItems.each(function () {
+        $(this).trigger($.Event('click'));
+      });
+
+      releaseKey(keyMap.cmd);
+    });
+
+    describe("pressing the escape key", function () {
+      
+      it("should deselect all list items", function () {
+        pressKey(keyMap.esc);
+        expect($list.find('.selected').size()).toEqual(0);
+      });
+    });
+
+    describe("pressing the enter key", function () {
+
+      beforeEach(function () {
+        pressKey(keyMap.enter);
+      });
+      
+      it("should trigger the submit callback", function () {
+        expect($testOutput.data('submitCallback')).toBeTruthy();
+      });
+      
+      it("should pass the correct ids to the callback", function () {
+        expect($testOutput.data('uids')).toEqual(targetIndices);
+      });
+    });
+
+    describe("pressing the delete key", function () {
+      
+      beforeEach(function () {
+        pressKey(keyMap.delete);
+      });
+
+      it("should trigger the delete callback", function () {
+        expect($testOutput.data('deleteCallback')).toBeTruthy();
+      });
+      
+      it("should pass the correct ids to the callback", function () {
+        expect($testOutput.data('uids')).toEqual(targetIndices);
+      });
+    });
+
+    describe("pressing the backspace key", function () {
+      
+      beforeEach(function () {
+        pressKey(keyMap.backspace);
+      });
+
+      it("should trigger the delete callback", function () {
+        expect($testOutput.data('deleteCallback')).toBeTruthy();
+      });
+      
+      it("should pass the correct ids to the callback", function () {
+        expect($testOutput.data('uids')).toEqual(targetIndices);
+      });
+    });
+  });
 });

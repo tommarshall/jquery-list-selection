@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>jQuery Listable Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <style>
+      .list-group ul {
+        margin: 0;
+        padding: 0;
+      }
+
+      .list-group li {
+        padding: 1em;
+        margin: 0.4em 0;
+        list-style: none;
+        border: 1px solid #eee;
+      }
+
+      .list-group li.selected {
+        color: #fff;
+        background-color: #3276b1;
+        border-color: #285e8e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+    <h1>jQuery Listable Demo</h1>
+    <p class="lead">A Full Featured Example</p>
+
+
+    <section>
+    <!--Bootstrap 3 Scaffolding-->
+      <hr>
+    
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="list-group">
+            <ul data-listable="true">
+              <li data-uid="1">Item 1</li>
+              <li data-uid="2">Item 2</li>
+              <li data-uid="3">Item 3</li>
+              <li data-uid="4">Item 4</li>
+              <li data-uid="5">Item 5</li>
+              <li data-uid="6">Item 6</li>
+              <li data-uid="7">Item 7</li>
+              <li data-uid="8">Item 8</li>
+              <li data-uid="9">Item 9</li>
+              <li data-uid="10">Item 10</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="http://code.jquery.com/jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+    <script src="js/respond.js"></script>
+
+    <script src="../src/listable.jquery.js"></script>
+    <script>
+      $(function() {
+        $('ul[data-listable="true"]').listable();
+      });
+    </script>
+  </body>
+</html>
