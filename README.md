@@ -1,5 +1,4 @@
 jQuery List Selection [![Build Status](https://travis-ci.org/tommarshall/jquery-list-selection.png)](https://travis-ci.org/tommarshall/jquery-list-selection)
-
 ===============
 File manager style rich selection for lists of elements
 
