@@ -1,5 +1,5 @@
 {
-  "name": "jquery-list-selection",
+  "name": "list-selection",
   "title": "jQuery List Selection",
   "description": "File manager style rich selection for lists of elements",
   "keywords": [
@@ -22,7 +22,10 @@
       "url": "https://github.com/tommarshall"
     }
   ],
-  "licenses": [ "MIT" ],
+  "licenses": [{
+    "type": "MIT",
+    "url": "http://tommarshall.mit-license.org/"
+  }],
   "bugs": "https://github.com/tommarshall/jquery-list-selection/issues",
   "homepage": "https://github.com/tommarshall/jquery-list-selection",
   "docs": "https://github.com/tommarshall/jquery-list-selection#readme",
