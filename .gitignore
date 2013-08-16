@@ -6,6 +6,5 @@
 .Trashes
 
 _SpecRunner.html
-package.json
 node_modules
 src/list-selection-old.jquery.js

@@ -3,71 +3,69 @@ module.exports = function(grunt) {
   grunt.initConfig({
 
     // Import package manifest
-    pkg: grunt.file.readJSON("list-selection.jquery.json"),
+    pkg: grunt.file.readJSON('list-selection.jquery.json'),
 
     // Banner definitions
     meta: {
-      banner: "/*\n" +
-        " *  <%= pkg.title || pkg.name %> - v<%= pkg.version %>\n" +
-        " *  <%= pkg.description %>\n" +
-        " *  <%= pkg.homepage %>\n" +
-        " *\n" +
-        " *  Made by <%= pkg.author.name %>\n" +
-        " *  Under <%= pkg.licenses[0].type %> License\n" +
-        " */\n"
+      banner: '/*\n' +
+        ' *  <%= pkg.title || pkg.name %> - v<%= pkg.version %>\n' +
+        ' *  <%= pkg.description %>\n' +
+        ' *  <%= pkg.homepage %>\n' +
+        ' *\n' +
+        ' *  Made by <%= pkg.author.name %>\n' +
+        ' *  Under <%= pkg.licenses[0].type %> License\n' +
+        ' */\n'
     },
 
     // Concat definitions
     concat: {
       dist: {
-        src: ["src/list-selection.jquery.js"],
-        dest: "dist/list-selection.jquery.js"
+        src: ['src/list-selection.jquery.js'],
+        dest: 'dist/list-selection.jquery.js'
       },
       options: {
-        banner: "<%= meta.banner %>"
+        banner: '<%= meta.banner %>'
       }
     },
 
     // Lint definitions
     jshint: {
-      files: ["src/list-selection.jquery.js"],
+      files: ['src/list-selection.jquery.js'],
       options: {
-        jshintrc: ".jshintrc"
+        jshintrc: '.jshintrc'
       }
     },
 
     // Minify definitions
     uglify: {
       my_target: {
-        src: ["dist/list-selection.jquery.js"],
-        dest: "dist/list-selection.jquery.min.js"
+        src: ['dist/list-selection.jquery.js'],
+        dest: 'dist/list-selection.jquery.min.js'
       },
       options: {
-        banner: "<%= meta.banner %>"
+        banner: '<%= meta.banner %>'
       }
     },
 
     jasmine: {
-      pivotal: {
-        src: 'src/list-selection.jquery.js',
-        options: {
-          specs: 'spec/*Spec.js',
-          helpers: [
-            'spec/*Helper.js', 
-            'lib/jquery-1.10.2.js', 
-            'lib/jasmine-jquery-1.5.8.js'
-          ]
-        }
+      src: 'src/list-selection.jquery.js',
+      options: {
+        specs: 'spec/*Spec.js',
+        helpers: [
+          'lib/jquery-1.10.2.js',
+          'lib/jasmine-jquery-1.5.8.js',
+          'spec/*Helper.js'
+        ],
       }
     }
 
   });
 
-  grunt.loadNpmTasks("grunt-contrib-concat");
-  grunt.loadNpmTasks("grunt-contrib-jshint");
-  grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
 
-  grunt.registerTask("default", ["jshint", "concat", "uglify"]);
-  grunt.registerTask("travis", ["jshint"]);
+  grunt.registerTask('default', ['jshint', 'concat', 'uglify', 'jasmine']);
+  grunt.registerTask('travis', ['jshint', 'jasmine']);
 };
