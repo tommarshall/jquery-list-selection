@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>jQuery Listable Demo</title>
+    <title>jQuery ListSelection Demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -24,12 +24,18 @@
         background-color: #3276b1;
         border-color: #285e8e;
       }
+
+      .list-group li.context-selected {
+        color: #fff;
+        background-color: #2AB782;
+        border-color: #0E774F;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-    <h1>jQuery Listable Demo</h1>
-    <p class="lead">A Full Featured Example</p>
+    <h1>jQuery ListSelection Demo</h1>
+    <p class="lead">File manager style rich selection for lists of elements</p>
 
 
     <section>
@@ -39,7 +45,7 @@
       <div class="row">
         <div class="col-lg-12">
           <div class="list-group">
-            <ul data-listable="true">
+            <ul data-list-selection="true">
               <li data-uid="1">Item 1</li>
               <li data-uid="2">Item 2</li>
               <li data-uid="3">Item 3</li>
@@ -64,10 +70,23 @@
     <!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
     <script src="js/respond.js"></script>
 
-    <script src="../src/listable.jquery.js"></script>
+    <script src="../src/list-selection.jquery.js"></script>
     <script>
       $(function() {
-        $('ul[data-listable="true"]').listable();
+        var $listSelection = $('ul[data-list-selection="true"]');
+        $listSelection.listSelection({
+          submitCallback: function (uids) { 
+            alert('Submit callback fired with: ' + JSON.stringify(uids)); 
+          },
+          deleteCallback: function (uids) { 
+            alert('Delete callback fired with: ' + JSON.stringify(uids)); 
+          },
+          contextCallback: function (uids) {
+            alert('Context menu callback fired with: ' + JSON.stringify(uids));
+            $listSelection.listSelection('clearContextSelect');
+            return false;
+          }
+        });
       });
     </script>
   </body>

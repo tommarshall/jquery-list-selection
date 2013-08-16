@@ -1,0 +1,32 @@
+{
+  "name": "jquery-list-selection",
+  "title": "jQuery ListSelection",
+  "description": "File manager style rich selection for lists of elements",
+  "keywords": [
+    "jquery",
+    "lists",
+    "selection",
+    "multi selection"
+  ],
+  "version": "0.1.0",
+  "author": {
+    "name": "Tom Marshall",
+    "email": "tom@bang-on.net",
+    "url": "https://github.com/tommarshall"
+  },
+  "maintainers": [
+    {
+      "name": "Tom Marshall",
+      "email": "tom@bang-on.net",
+      "url": "https://github.com/tommarshall"
+    }
+  ],
+  "licenses": [ "MIT" ],
+  "bugs": "https://github.com/tommarshall/jquery-list-selection/issues",
+  "homepage": "https://github.com/tommarshall/jquery-list-selection",
+  "docs": "https://github.com/tommarshall/jquery-list-selection#readme",
+  "download": "https://github.com/tommarshall/jquery-list-selection/archive/master.zip",
+  "dependencies": {
+    "jquery": ">=1.4"
+  }
+}

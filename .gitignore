@@ -1,1 +1,11 @@
 .DS_Store
+.DS_Store?
+._*
+.grunt
+.Spotlight-V100
+.Trashes
+
+_SpecRunner.html
+package.json
+node_modules
+src/list-selection-old.jquery.js

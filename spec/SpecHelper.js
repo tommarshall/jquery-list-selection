@@ -18,6 +18,22 @@ beforeEach(function() {
       return ! $(this.actual).hasClass('selected');
     },
 
+    toBeContextSelected: function() {
+      this.message = function () {
+        return "Expected " + $(this.actual).text() + " to be context selected";
+      };
+
+      return $(this.actual).hasClass('context-selected');
+    },
+    
+    toNotBeContextSelected: function() {
+      this.message = function () {
+        return "Expected " + $(this.actual).text() + " to not be context selected";
+      };
+
+      return ! $(this.actual).hasClass('context-selected');
+    },
+
     toHaveSelectionDisabled: function () {
       var $actual = $(this.actual);
 
@@ -41,6 +57,14 @@ var pending = function () {
   expect('pending').toEqual('completed');
 };
 
+var getRange = function (start, end) {
+    var range = [];
+    for (var i = start; i <= end; i++) {
+        range.push(i);
+    }
+    return range;
+};
+
 var keyMap = {
     'enter':     13,
     'esc':       27,
@@ -51,7 +75,8 @@ var keyMap = {
     'backspace': 8,
     'tab':       9,
     'up':        38,
-    'down':      40
+    'down':      40,
+    'a':         65,
   };
 
 var pressKey = function (keycode) {
