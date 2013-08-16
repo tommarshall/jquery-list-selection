@@ -1,12 +1,13 @@
 {
   "name": "jquery-list-selection",
-  "title": "jQuery ListSelection",
+  "title": "jQuery List Selection",
   "description": "File manager style rich selection for lists of elements",
   "keywords": [
-    "jquery",
+    "list",
     "lists",
     "selection",
-    "multi selection"
+    "multi",
+    "multiple"
   ],
   "version": "0.1.0",
   "author": {
