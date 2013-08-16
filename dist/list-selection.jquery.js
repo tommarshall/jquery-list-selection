@@ -1,5 +1,5 @@
 /*
- *  jQuery List Selection - v0.1.0
+ *  jQuery List Selection - v0.1.2
  *  File manager style rich selection for lists of elements
  *  https://github.com/tommarshall/jquery-list-selection
  *
