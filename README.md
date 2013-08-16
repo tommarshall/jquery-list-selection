@@ -1,4 +1,5 @@
-jQuery ListSelection
+jQuery List Selection [![Build Status](https://travis-ci.org/tommarshall/jquery-list-selection.png)](https://travis-ci.org/tommarshall/jquery-list-selection)
+
 ===============
 File manager style rich selection for lists of elements
 
@@ -8,4 +9,4 @@ TODO
 * Ctrl/cmd alias for windows support
 * Refactor to remove string comparison of context menu callback
 * Refactor massive test file into smaller components
-* Create demo with context menu library
+* Create demo with context menu library(s)
