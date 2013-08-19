@@ -27,14 +27,14 @@
     self._defaults = defaults;
     self._name = pluginName;
 
-        // set the default state
+    // set the default state
     self.multiSelect = false;
     self.rangeSelect = false;
     self.$rangeRoot = null;
     self.$lastSelected = null;
     self.leftMouseDown = false;
 
-    self.init();
+    self._init();
   }
 
   Plugin.prototype = {
@@ -42,7 +42,15 @@
     // =========================================================================
     // Public methods
     // =========================================================================
-    init: function () {
+    clearContextSelect: function () {
+      var self = this;
+      self.$items.removeClass(self.options.contextSelectClass);
+    },
+
+    // =========================================================================
+    // Private methods (start with underscore)
+    // =========================================================================
+    _init: function () {
       var self = this;
 
       self.$items = self.$el.find(self.options.itemsSelector);
@@ -73,15 +81,7 @@
           $.proxy(self.clearContextSelect, self));
       }
     },
-
-    clearContextSelect: function () {
-      var self = this;
-      self.$items.removeClass(self.options.contextSelectClass);
-    },
-
-    // =========================================================================
-    // Private methods (start with underscore)
-    // =========================================================================
+    
     _itemMouseDownHandler: function (event) {
       var self = this;
       if ( event.which !== 2 && event.which !== 3 ) {
