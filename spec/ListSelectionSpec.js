@@ -1,4 +1,4 @@
-describe("ListSelection jQuery Plugin:", function () {
+describe('List Selection jQuery Plugin:', function () {
   var $list, $listItems, $targetItem, $testOutput, testOptions;
 
   testOptions = {
@@ -17,22 +17,22 @@ describe("ListSelection jQuery Plugin:", function () {
   };
 
   beforeEach(function () {
-    jasmine.getFixtures().set('<ul data-list-selection="true">'+
-                                '<li data-uid="1">Item 1</li>'+
-                                '<li data-uid="2">Item 2</li>'+
-                                '<li data-uid="3">Item 3</li>'+
-                                '<li data-uid="4">Item 4</li>'+
-                                '<li data-uid="5">Item 5</li>'+
-                                '<li data-uid="6">Item 6</li>'+
-                                '<li data-uid="7">Item 7</li>'+
-                                '<li data-uid="8">Item 8</li>'+
-                                '<li data-uid="9">Item 9</li>'+
-                                '<li data-uid="10">Item 10</li>'+
-                              '</ul>'+
-                              '<div id="test-output"></div>"');
+    jasmine.getFixtures().set(['<ul data-list-selection="true">',
+                                '<li data-uid="1">Item 1</li>',
+                                '<li data-uid="2">Item 2</li>',
+                                '<li data-uid="3">Item 3</li>',
+                                '<li data-uid="4">Item 4</li>',
+                                '<li data-uid="5">Item 5</li>',
+                                '<li data-uid="6">Item 6</li>',
+                                '<li data-uid="7">Item 7</li>',
+                                '<li data-uid="8">Item 8</li>',
+                                '<li data-uid="9">Item 9</li>',
+                                '<li data-uid="10">Item 10</li>',
+                              '</ul>',
+                              '<div id="test-output"></div>"'].join('\n'));
 
     $testOutput = $('#test-output');
-    
+
     $list = $('ul[data-list-selection="true"]');
     $list.listSelection(testOptions);
 
@@ -61,7 +61,7 @@ describe("ListSelection jQuery Plugin:", function () {
           // trigger the click
           $targetItem.trigger($.Event('mousedown'));
         });
-        
+
         it("should select that list item", function () {
           expect($targetItem).toBeSelected();
         });
@@ -83,7 +83,7 @@ describe("ListSelection jQuery Plugin:", function () {
           // trigger the click
           $targetItem.trigger($.Event('mousedown'));
         });
-        
+
         afterEach(function () {
           // trigger ctrl release event
           ctrlRelease = $.Event('keyup');
@@ -143,7 +143,7 @@ describe("ListSelection jQuery Plugin:", function () {
     });
 
     describe("pressing the escape key", function () {
-      
+
       it("should not select any list items", function () {
         pressKey(keyMap.esc);
         expect($list.find('.selected').size()).toEqual(0);
@@ -151,7 +151,7 @@ describe("ListSelection jQuery Plugin:", function () {
     });
 
     describe("pressing the enter key", function () {
-      
+
       beforeEach(function () {
         pressKey(keyMap.enter);
       });
@@ -166,7 +166,7 @@ describe("ListSelection jQuery Plugin:", function () {
     });
 
     describe("pressing the delete key", function () {
-      
+
       beforeEach(function () {
         pressKey(keyMap.delete);
       });
@@ -181,7 +181,7 @@ describe("ListSelection jQuery Plugin:", function () {
     });
 
     describe("pressing the backspace key", function () {
-      
+
       beforeEach(function () {
         pressKey(keyMap.backspace);
       });
@@ -232,12 +232,12 @@ describe("ListSelection jQuery Plugin:", function () {
     describe("clicking on an unselected list item", function () {
 
       describe("with no modifier keys", function () {
-        
+
         beforeEach(function () {
           // trigger the click
           $targetItem.trigger($.Event('mousedown'));
         });
-        
+
         it("should select that list item", function () {
           expect($targetItem).toBeSelected();
         });
@@ -252,15 +252,15 @@ describe("ListSelection jQuery Plugin:", function () {
           pressKey(keyMap.cmd);
           $targetItem.trigger($.Event('mousedown'));
         });
-        
+
         afterEach(function () {
           releaseKey(keyMap.cmd);
         });
-                
+
         it("should select that list item", function () {
           expect($targetItem).toBeSelected();
         });
-        
+
         it("should retain selection of other list items", function () {
           expect($selectedItem).toBeSelected();
         });
@@ -294,11 +294,11 @@ describe("ListSelection jQuery Plugin:", function () {
         });
       });
     });
-    
+
     describe("clicking on the selected list item", function () {
 
       describe("with no modifier keys", function () {
-        
+
         beforeEach(function () {
           // trigger the click
           $selectedItem.trigger($.Event('mousedown'));
@@ -320,7 +320,7 @@ describe("ListSelection jQuery Plugin:", function () {
           pressKey(keyMap.cmd);
           $selectedItem.trigger($.Event('mousedown'));
         });
-        
+
         afterEach(function () {
           releaseKey(keyMap.cmd);
         });
@@ -357,7 +357,7 @@ describe("ListSelection jQuery Plugin:", function () {
     });
 
     describe("pressing the escape key", function () {
-      
+
       it("should deselect all list items", function () {
         pressKey(keyMap.esc);
         expect($list.find('.selected').size()).toEqual(0);
@@ -369,18 +369,18 @@ describe("ListSelection jQuery Plugin:", function () {
       beforeEach(function () {
         pressKey(keyMap.enter);
       });
-      
+
       it("should trigger the submit callback", function () {
         expect($testOutput.data('submitCallback')).toBeTruthy();
       });
-      
+
       it("should pass the correct id to the callback", function () {
         expect($testOutput.data('uids')).toEqual([$selectedItem.data('uid')]);
       });
     });
 
     describe("pressing the delete key", function () {
-      
+
       beforeEach(function () {
         pressKey(keyMap.delete);
       });
@@ -388,14 +388,14 @@ describe("ListSelection jQuery Plugin:", function () {
       it("should trigger the delete callback", function () {
         expect($testOutput.data('deleteCallback')).toBeTruthy();
       });
-      
+
       it("should pass the correct id to the callback", function () {
         expect($testOutput.data('uids')).toEqual([$selectedItem.data('uid')]);
       });
     });
 
     describe("pressing the backspace key", function () {
-      
+
       beforeEach(function () {
         pressKey(keyMap.backspace);
       });
@@ -403,7 +403,7 @@ describe("ListSelection jQuery Plugin:", function () {
       it("should trigger the delete callback", function () {
         expect($testOutput.data('deleteCallback')).toBeTruthy();
       });
-      
+
       it("should pass the correct id to the callback", function () {
         expect($testOutput.data('uids')).toEqual([$selectedItem.data('uid')]);
       });
@@ -421,7 +421,7 @@ describe("ListSelection jQuery Plugin:", function () {
         it("should deselect the current item", function () {
           expect($selectedItem).toNotBeSelected();
         });
-        
+
         it("should select the previous item", function () {
           var $previousItem = $selectedItem.prev();
           expect($previousItem).toBeSelected();
@@ -433,7 +433,7 @@ describe("ListSelection jQuery Plugin:", function () {
       });
 
       describe("with shift key held", function () {
-        
+
         beforeEach(function () {
           // hold shift, hit up twice
           pressKey(keyMap.shift);
@@ -481,7 +481,7 @@ describe("ListSelection jQuery Plugin:", function () {
     });
 
     describe("pressing the down key", function () {
-      
+
       describe("with no modifier keys", function () {
         beforeEach(function () {
           pressKey(keyMap.down);
@@ -491,7 +491,7 @@ describe("ListSelection jQuery Plugin:", function () {
         it("should deselect the current item", function () {
           expect($selectedItem).toNotBeSelected();
         });
-        
+
         it("should select the next item", function () {
           var $nextItem = $listItems.eq($selectedItem.index() + 1);
           expect($nextItem).toBeSelected();
@@ -503,7 +503,7 @@ describe("ListSelection jQuery Plugin:", function () {
       });
 
       describe("with shift key held", function () {
-        
+
         beforeEach(function () {
           // hold shift, hit down twice
           pressKey(keyMap.shift);
@@ -531,7 +531,7 @@ describe("ListSelection jQuery Plugin:", function () {
       });
 
       describe("with cmd/ctrl key held", function () {
-        
+
         beforeEach(function () {
           // hold cmd, hit down once
           pressKey(keyMap.cmd);
@@ -563,7 +563,7 @@ describe("ListSelection jQuery Plugin:", function () {
 
   describe("when the top item is selected pressing the up key", function () {
     var $firstItem;
-    
+
     beforeEach(function () {
       $firstItem = $listItems.first();
       $firstItem.trigger($.Event('mousedown'));
@@ -611,7 +611,7 @@ describe("ListSelection jQuery Plugin:", function () {
 
       pressKey(keyMap.cmd);
 
-      // click each of the target items 
+      // click each of the target items
       $multiSelectedItems.each(function () {
         $(this).trigger($.Event('mousedown'));
       });
@@ -620,7 +620,7 @@ describe("ListSelection jQuery Plugin:", function () {
     });
 
     describe("pressing the escape key", function () {
-      
+
       it("should deselect all list items", function () {
         pressKey(keyMap.esc);
         expect($list.find('.selected').size()).toEqual(0);
@@ -632,18 +632,18 @@ describe("ListSelection jQuery Plugin:", function () {
       beforeEach(function () {
         pressKey(keyMap.enter);
       });
-      
+
       it("should trigger the submit callback", function () {
         expect($testOutput.data('submitCallback')).toBeTruthy();
       });
-      
+
       it("should pass the correct ids to the callback", function () {
         expect($testOutput.data('uids')).toEqual(targetIndices);
       });
     });
 
     describe("pressing the delete key", function () {
-      
+
       beforeEach(function () {
         pressKey(keyMap.delete);
       });
@@ -651,14 +651,14 @@ describe("ListSelection jQuery Plugin:", function () {
       it("should trigger the delete callback", function () {
         expect($testOutput.data('deleteCallback')).toBeTruthy();
       });
-      
+
       it("should pass the correct ids to the callback", function () {
         expect($testOutput.data('uids')).toEqual(targetIndices);
       });
     });
 
     describe("pressing the backspace key", function () {
-      
+
       beforeEach(function () {
         pressKey(keyMap.backspace);
       });
@@ -666,7 +666,7 @@ describe("ListSelection jQuery Plugin:", function () {
       it("should trigger the delete callback", function () {
         expect($testOutput.data('deleteCallback')).toBeTruthy();
       });
-      
+
       it("should pass the correct ids to the callback", function () {
         expect($testOutput.data('uids')).toEqual(targetIndices);
       });
@@ -698,7 +698,7 @@ describe("ListSelection jQuery Plugin:", function () {
     });
 
     describe("pressing the escape key", function () {
-      
+
       it("should deselect all list items", function () {
         pressKey(keyMap.esc);
         expect($list.find('.selected').size()).toEqual(0);
@@ -721,18 +721,18 @@ describe("ListSelection jQuery Plugin:", function () {
       beforeEach(function () {
         pressKey(keyMap.enter);
       });
-      
+
       it("should trigger the submit callback", function () {
         expect($testOutput.data('submitCallback')).toBeTruthy();
       });
-      
+
       it("should pass the correct ids to the callback", function () {
         expect($testOutput.data('uids')).toEqual(getRange(rangeStart, rangeStop));
       });
     });
 
     describe("pressing the delete key", function () {
-      
+
       beforeEach(function () {
         pressKey(keyMap.delete);
       });
@@ -740,14 +740,14 @@ describe("ListSelection jQuery Plugin:", function () {
       it("should trigger the delete callback", function () {
         expect($testOutput.data('deleteCallback')).toBeTruthy();
       });
-      
+
       it("should pass the correct ids to the callback", function () {
         expect($testOutput.data('uids')).toEqual(getRange(rangeStart, rangeStop));
       });
     });
 
     describe("pressing the backspace key", function () {
-      
+
       beforeEach(function () {
         pressKey(keyMap.backspace);
       });
@@ -755,7 +755,7 @@ describe("ListSelection jQuery Plugin:", function () {
       it("should trigger the delete callback", function () {
         expect($testOutput.data('deleteCallback')).toBeTruthy();
       });
-      
+
       it("should pass the correct ids to the callback", function () {
         expect($testOutput.data('uids')).toEqual(getRange(rangeStart, rangeStop));
       });
@@ -774,14 +774,14 @@ describe("ListSelection jQuery Plugin:", function () {
           var $previousItem = $rangeStopItem.prev();
           expect($previousItem).toBeSelected();
         });
-        
+
         it("should deselect all other items", function () {
           expect($list.find('.selected').size()).toEqual(1);
         });
       });
 
       describe("with shift key held", function () {
-        
+
         beforeEach(function () {
           // hold shift, hit up twice
           pressKey(keyMap.shift);
@@ -821,7 +821,7 @@ describe("ListSelection jQuery Plugin:", function () {
     });
 
     xdescribe("pressing the down key", function () {
-      
+
       describe("with no modifier keys", function () {
         beforeEach(function () {
           pressKey(keyMap.down);
@@ -833,14 +833,14 @@ describe("ListSelection jQuery Plugin:", function () {
           //expect($nextItem).toBeSelected();
           pending();
         });
-        
+
         it("should deselect all other items", function () {
           expect($list.find('.selected').size()).toEqual(1);
         });
       });
 
       describe("with shift key held", function () {
-        
+
         beforeEach(function () {
           // hold shift, hit down twice
           pressKey(keyMap.shift);
@@ -870,7 +870,7 @@ describe("ListSelection jQuery Plugin:", function () {
       });
 
       describe("with cmd/ctrl key held", function () {
-        
+
         beforeEach(function () {
           // hold cmd, hit down once
           pressKey(keyMap.cmd);
@@ -1025,7 +1025,7 @@ describe("ListSelection jQuery Plugin:", function () {
         it("should trigger the rightclick callback", function () {
           expect($testOutput.data('rightclickCallback')).toBeTruthy();
         });
-      
+
         it("should pass the correct id to the callback", function () {
           expect($testOutput.data('uids')).toEqual([$targetItem.data('uid')]);
         });
@@ -1044,7 +1044,7 @@ describe("ListSelection jQuery Plugin:", function () {
 
           pressKey(keyMap.cmd);
 
-          // click each of the target items 
+          // click each of the target items
           $multiSelectedItems.each(function () {
             $(this).trigger($.Event('mousedown'));
           });
@@ -1062,7 +1062,7 @@ describe("ListSelection jQuery Plugin:", function () {
         it("should trigger the rightclick callback", function () {
           expect($testOutput.data('rightclickCallback')).toBeTruthy();
         });
-      
+
         it("should pass the correct id to the callback", function () {
           expect($testOutput.data('uids')).toEqual(targetIndices);
         });
@@ -1086,7 +1086,7 @@ describe("ListSelection jQuery Plugin:", function () {
         it("should trigger the rightclick callback", function () {
           expect($testOutput.data('rightclickCallback')).toBeTruthy();
         });
-      
+
         it("should pass the correct id to the callback", function () {
           expect($testOutput.data('uids')).toEqual([$targetItem.data('uid')]);
         });
@@ -1105,7 +1105,7 @@ describe("ListSelection jQuery Plugin:", function () {
 
           pressKey(keyMap.cmd);
 
-          // click each of the target items 
+          // click each of the target items
           $multiSelectedItems.each(function () {
             $(this).trigger($.Event('mousedown'));
           });
@@ -1131,7 +1131,7 @@ describe("ListSelection jQuery Plugin:", function () {
         it("should trigger the rightclick callback", function () {
           expect($testOutput.data('rightclickCallback')).toBeTruthy();
         });
-      
+
         it("should pass the correct id to the callback", function () {
           expect($testOutput.data('uids')).toEqual([$targetItem.data('uid')]);
         });
